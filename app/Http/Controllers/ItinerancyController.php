@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Evaluation;
+use App\Models\Itinerancy;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
+
+
+class ItinerancyController extends Controller
+{
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:itinerancy-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:itinerancy-create', ['only' => ['create','store']]);
+        $this->middleware('permission:itinerancy-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:itinerancy-delete', ['only' => ['destroy']]);
+    }
+
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function index(Request $request)
+  {
+      $data = Itinerancy::orderBy('id','DESC')->paginate(5);
+
+      return view('itinerancy.index',compact('data'))
+          ->with('i', ($request->input('page', 1) - 1) * 5);
+  }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(): \Illuminate\View\View
+    {
+        $data = Itinerancy::pluck('name','name')->all();
+        return view('itinerancy.create',compact('data'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        Itinerancy::create($input);
+
+        return redirect()->route('itinerancies.index')
+                         ->with('success','Itinerancy created successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id): View
+    {
+        $itinerancy = Itinerancy::find($id);
+        $evaluations = Evaluation::where("itinerancy_id", $id)->get();
+
+        return view('itinerancy.show', compact('itinerancy', 'evaluations'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function edit($id): View
+    {
+        $itinerancy = Itinerancy::find($id);
+
+        return view('itinerancy.edit', compact('itinerancy'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $itinerancy = Itinerancy::find($id);
+        $itinerancy->name = $request->input('name');
+        $itinerancy->save();
+
+        return redirect()->route('itinerancies.index')
+                         ->with('success','Itinerancy updated successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id): RedirectResponse
+    {
+        Itinerancy::find($id)->delete();
+        return redirect()->route('itinerancies.index')
+                         ->with('success','Itinerancy deleted successfully');
+    }
+
+}
+
+?>

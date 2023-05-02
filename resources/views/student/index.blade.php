@@ -37,7 +37,6 @@
                 <td>{{ $itinerancy->id }}</td>
                 <td>{{ $itinerancy->name }}</td>
                 <td>
-                    <a class="btn btn-info" href="{{ route('itinerancies.show', $itinerancy->id) }}">View</a>
                     @can('itinerancy-edit')
                         <a class="btn btn-primary" href="{{ route('itinerancies.edit',$itinerancy->id) }}">Edit</a>
                     @endcan
@@ -46,7 +45,6 @@
                         {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                         {!! Form::close() !!}
                     @endcan
-                    <a class="btn btn-warning" href="{{ route('itinerancies.export', $itinerancy->id) }}">Export</a>
                 </td>
             </tr>
         @endforeach

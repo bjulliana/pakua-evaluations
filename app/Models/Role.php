@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Discipline extends Model
+class Role extends Model
 {
 
-    protected $table = 'disciplines';
+    protected $table = 'roles';
     public $timestamps = false;
+
+    const ADMIN = 'Admin';
+    const INSTRUCTOR = 'Instructor';
+    const ITINERANT = 'Itinerant';
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +22,4 @@ class Discipline extends Model
     protected $fillable = [
         'name'
     ];
-
-    public function evaluations(): \Illuminate\Database\Eloquent\Relations\HasMany {
-        return $this->hasMany(Evaluation::class);
-    }
-
 }

@@ -33,6 +33,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('set null')
 						->onUpdate('set null');
 		});
+        Schema::table('students', function(Blueprint $table) {
+            $table->foreign('instructor_id')->references('id')->on('instructors')
+                  ->onDelete('set null')
+                  ->onUpdate('set null');
+        });
 	}
 
 	public function down()
@@ -52,5 +57,8 @@ class CreateForeignKeys extends Migration {
 		Schema::table('students', function(Blueprint $table) {
 			$table->dropForeign('students_current_belt_id_foreign');
 		});
+        Schema::table('students', function(Blueprint $table) {
+            $table->dropForeign('students_instructor_id_foreign');
+        });
 	}
 }

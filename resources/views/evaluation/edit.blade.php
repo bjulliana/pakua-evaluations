@@ -31,24 +31,19 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Discipline</strong>
+                <label class="form-label" for="discipline">Discipline</label>
                 <select name="discipline" class="form-select">
-                    <option @if ($evaluation->discipline === "Archery") selected @endif value="Archery">Archery</option>
-                    <option @if ($evaluation->discipline === "Acrobatics") selected @endif value="Acrobatics">Acrobatics</option>
-                    <option @if ($evaluation->discipline === "Edged Weapons") selected @endif value="Edged Weapons">Edged Weapons</option>
-                    <option @if ($evaluation->discipline === "Martial Art") selected @endif value="Martial Art">Martial Art</option>
-                    <option @if ($evaluation->discipline === "Pa Kua Chi") selected @endif value="Pa Kua Chi">Pa Kua Chi</option>
-                    <option @if ($evaluation->discipline === "Pa Kua Rhythm") selected @endif value="Pa Kua Rhythm">Pa Kua Rhythm</option>
-                    <option @if ($evaluation->discipline === "Tai Chi") selected @endif value="Tai Chi">Tai Chi</option>
-                    <option @if ($evaluation->discipline === "Sintony") selected @endif value="Sintony">Sintony</option>
+                    @foreach($disciplines as $discipline)
+                        <option value="{{ $discipline->id }}" @if($discipline->id === $evaluation->discipline_id) selected @endif>{{ $discipline->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group mt-3">
-                <strong>Date</strong>
-                {!! Form::text('date', $evaluation->date->format('Y-m-d'), array('placeholder' => 'Date','class' => 'form-control')) !!}
+                <label class="form-label" for="date-input">Date</label>
+                <input id="date-input" type="date" class="form-control" name="date" value="{{ $evaluation->date->format('Y-m-d') }}">
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-left mt-3">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-left mt-3 text-end">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>

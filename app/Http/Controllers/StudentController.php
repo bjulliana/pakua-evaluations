@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Belt;
+use App\Models\Evaluation;
+use App\Models\Instructor;
+use App\Models\Student;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'discipline',
-        'date',
-        'itinerancy_id'
-    ];
+    protected $_user;
 
     /**
      * Create a new controller instance.
@@ -25,83 +20,193 @@ class StudentController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('auth');
+        $this->middleware('permission:student-list', ['only' => ['index','store']]);
+        $this->middleware('permission:student-create', ['only' => ['create','store']]);
+        $this->middleware('permission:student-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:student-delete', ['only' => ['destroy']]);
     }
 
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return \Illuminate\View\View
    */
-  public function index()
-  {
+  public function itinerantView($evaluation_id) {
+      $user = auth()->user();
+      $role = ($user) ? $user->getRoleNames()[0] : null;
+      $canAddResults = $role && (($role === Role::ADMIN || $role === Role::ITINERANT));
+
+      if (!$canAddResults) abort(404);
+
+      $evaluation = Evaluation::find($evaluation_id);
+
+      $students = Student::where('evaluation_id', $evaluation->id)->get();
+
+      $data = [
+          'belts' => Belt::get(),
+          'students' => $students,
+          'evaluation' => $evaluation
+      ];
+
+      return view('student.itinerant_view', $data);
 
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param $evaluation_id
+     *
+     * @return \Illuminate\View\View
+     */
+  public function create($evaluation_id): \Illuminate\View\View {
+      $user = auth()->user();
+      $role = ($user) ? $user->getRoleNames()[0] : null;
 
+      $data = [
+          'belts' => Belt::get(),
+          'instructors' => Instructor::get(),
+          'evaluationOptions' => Student::EVALUATION_OPTIONS,
+          'evaluation' => Evaluation::find($evaluation_id),
+          'canAddResults' => $role && (($role === Role::ADMIN || $role === Role::ITINERANT)),
+      ];
+
+      return view('student.create', $data);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store(Request $request)
-  {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+  public function store(Request $request): \Illuminate\Http\RedirectResponse {
+      $this->validate($request, [
+          'name' => 'required',
+          'instructor_id' => 'required',
+          'current_belt_id' => 'required',
+          'has_stripes' => 'required',
+          'months_practice' => 'required',
+          'age' => 'required',
+          'evaluating_for' => 'required',
+          'is_paid' => 'required',
+          'evaluation_id' => 'required'
+      ]);
 
+      $input = $request->all();
+
+      $student = Student::create($input);
+
+      return redirect('/students/create/' . $student->evaluation_id)->with('success','Student created successfully');
+  }
+
+  public function itinerantUpdate(Request $request): \Illuminate\Http\RedirectResponse {
+      $inputs = $request->all();
+      $studentsRequest = $inputs['students'];
+      $evaluationId = $inputs['evaluation_id'];
+
+      foreach ($studentsRequest as $studentRequest) {
+          $student = Student::find($studentRequest['id']);
+          $student->activity_1 = $studentRequest['activity_1'] ?? NULL;
+          $student->activity_2 = $studentRequest['activity_2'] ?? NULL;
+          $student->activity_3 = $studentRequest['activity_3'] ?? NULL;
+          $student->activity_4 = $studentRequest['activity_4'] ?? NULL;
+          $student->activity_5 = $studentRequest['activity_5'] ?? NULL;
+          $student->activity_6 = $studentRequest['activity_6'] ?? NULL;
+          $student->received_belt_id = $studentRequest['received_belt_id'] ?? NULL;
+          $student->received_stripes = $studentRequest['received_stripes'] ?? NULL;
+          $student->notes = $studentRequest['notes'] ?? NULL;
+          $student->save();
+      }
+
+      return redirect('/students/itinerant_view/' . $evaluationId)->with('success','Students updated successfully');
   }
 
   /**
    * Display the specified resource.
    *
    * @param  int  $id
-   * @return Response
+   * @return \Illuminate\View\View
    */
-  public function show($id)
-  {
+  public function show($id): \Illuminate\View\View {
+      $student = Student::find($id);
 
+      return view('student.show', compact('student'));
   }
 
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  int  $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-
-  }
-
-  /**
-   * Update the specified resource in storage.
+   * @param int $id
    *
-   * @param  int  $id
-   * @return Response
+   * @return \Illuminate\View\View
    */
-  public function update($id)
-  {
+    public function edit(int $id): \Illuminate\View\View {
+        $user = auth()->user();
+        $role = ($user) ? $user->getRoleNames()[0] : null;
+        $student = Student::find($id);
 
+        $data = [
+            'student' => $student,
+            'belts' => Belt::get(),
+            'instructors' => Instructor::get(),
+            'evaluationOptions' => Student::EVALUATION_OPTIONS,
+            'evaluation' => $student->evaluation,
+            'canAddResults' => $role && (($role === Role::ADMIN || $role === Role::ITINERANT)),
+        ];
+
+        return view('student.edit', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+  public function update(Request $request, int $id): \Illuminate\Http\RedirectResponse {
+      $this->validate($request, [
+          'name' => 'required',
+          'instructor_id' => 'required',
+          'current_belt_id' => 'required',
+          'has_stripes' => 'required',
+          'months_practice' => 'required',
+          'age' => 'required',
+          'evaluating_for' => 'required',
+          'is_paid' => 'required',
+          'evaluation_id' => 'required'
+      ]);
+
+      $student = Student::find($id);
+      $student->fill($request->all());
+      $student->save();
+
+      return redirect()->route('evaluations.show', $student->evaluation_id)
+                       ->with('success','Student updated successfully');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function destroy($id)
-  {
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(int $id): \Illuminate\Http\RedirectResponse
+    {
+        $student = Student::find($id);
+        $evaluation_id = $student->evaluation_id;
+        $student->delete();
 
-  }
+        return redirect()->route('evaluations.show', $evaluation_id)
+                         ->with('success','Student deleted successfully');
+    }
 
 }
-
-?>

@@ -31,15 +31,15 @@ class Evaluation extends Model
     ];
 
     public function students(): \Illuminate\Database\Eloquent\Relations\HasMany {
-        return $this->hasMany('Student');
+        return $this->hasMany(Student::class);
     }
 
     public function itinerancy(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
-        return $this->belongsTo('Itinerancy');
+        return $this->belongsTo(Itinerancy::class);
     }
 
     public function discipline(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
-        return $this->belongsTo('Discipline');
+        return $this->belongsTo(Discipline::class);
     }
 
 }

@@ -40,7 +40,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Current Belt</th>
+                <th>Date</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -48,16 +48,12 @@
             <tr class="align-middle">
                 <td>{{ $student->id }}</td>
                 <td>{{ $student->name }}</td>
-                <td><span class="badge bg-{{ $student->currentBelt->badgeClass() }}">{{ $student->currentBelt->name }}</span></td>
                 <td>
-                    @role('Admin')
-                        <a class="btn btn-primary" href="{{ route('itinerant_view', $evaluation->id) }}">Itinerant View</a>
-                    @endrole
                     <a class="btn btn-info" href="{{ route('students.show', $student->id) }}">View</a>
-                    @can('student-edit')
+                    @can('students-edit')
                         <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
                     @endcan
-                    @can('student-delete')
+                    @can('students-delete')
                         {!! Form::open(['method' => 'DELETE','route' => ['students.destroy', $student->id],'style'=>'display:inline']) !!}
                         {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                         {!! Form::close() !!}

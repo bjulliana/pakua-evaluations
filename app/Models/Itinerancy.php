@@ -20,7 +20,7 @@ class Itinerancy extends Model
     ];
 
     public function evaluations(): \Illuminate\Database\Eloquent\Relations\HasMany {
-        return $this->hasMany('Evaluation');
+        return $this->hasMany(Evaluation::class);
     }
 
 }

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ItinerancyExport;
 use App\Models\Evaluation;
 use App\Models\Itinerancy;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItinerancyController extends Controller
 {
@@ -21,7 +22,7 @@ class ItinerancyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:itinerancy-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:itinerancy-list', ['only' => ['index','store']]);
         $this->middleware('permission:itinerancy-create', ['only' => ['create','store']]);
         $this->middleware('permission:itinerancy-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:itinerancy-delete', ['only' => ['destroy']]);
@@ -30,7 +31,7 @@ class ItinerancyController extends Controller
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
    */
   public function index(Request $request)
   {
@@ -132,6 +133,38 @@ class ItinerancyController extends Controller
                          ->with('success','Itinerancy deleted successfully');
     }
 
-}
+    public function export($itinerancy_id) {
+        $itinerancy = Itinerancy::find($itinerancy_id);
+        $evaluations = $itinerancy->evaluations;
+        $data = [];
 
-?>
+        foreach ($evaluations as $evaluation) {
+            $students = $evaluation->students;
+            foreach ($students as $student) {
+                $data[] = [
+                    'Discipline' => $evaluation->discipline->name,
+                    'Name' => $student->name,
+                    'Instructor' => $student->instructor->name,
+                    'Current Belt' => $student->currentBelt->name,
+                    'Current Stripes' => $student->has_stripes,
+                    'Months Practicing' => $student->months_practice,
+                    'Age' => $student->age,
+                    'Evaluation Paid' => $student->is_paid,
+                    'Belt or Patch' => $student->evaluating_for,
+                    'Activity 1' => $student->activity_1 ?? '',
+                    'Activity 2' => $student->activity_2 ?? '',
+                    'Activity 3' => $student->activity_3 ?? '',
+                    'Activity 4' => $student->activity_4 ?? '',
+                    'Activity 5' => $student->activity_5 ?? '',
+                    'Activity 6' => $student->activity_6 ?? '',
+                    'New Belt' => $student->receivedBelt?->name ?? '',
+                    'Received Stripes' => $student->received_stripes ?? '',
+                    'Itinerant Notes' => $student->notes ?? ''
+                ];
+            }
+        }
+
+        return Excel::download(new ItinerancyExport($data), $itinerancy->name . '.xlsx');
+    }
+
+}

@@ -22,6 +22,10 @@ class EvaluationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:evaluation-list', ['only' => ['index','store']]);
+        $this->middleware('permission:evaluation-create', ['only' => ['create','store']]);
+        $this->middleware('permission:evaluation-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:evaluation-delete', ['only' => ['destroy']]);
     }
 
   /**
@@ -34,7 +38,7 @@ class EvaluationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create($itinerancy_id): \Illuminate\View\View
     {
@@ -46,8 +50,9 @@ class EvaluationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -88,8 +93,9 @@ class EvaluationController extends Controller
     public function edit($id): View
     {
         $evaluation = Evaluation::find($id);
+        $disciplines = Discipline::get();
 
-        return view('evaluation.edit', compact('evaluation'));
+        return view('evaluation.edit', compact('evaluation', 'disciplines'));
     }
 
     /**
@@ -102,12 +108,12 @@ class EvaluationController extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
-            'discipline' => 'required',
+            'discipline_id' => 'required',
             'date' => 'required'
         ]);
 
         $evaluation = Evaluation::find($id);
-        $evaluation->discipline = $request->input('discipline');
+        $evaluation->discipline_id = $request->input('discipline_id');
         $evaluation->date = $request->input('date');
         $evaluation->save();
 
@@ -133,4 +139,3 @@ class EvaluationController extends Controller
 
 }
 
-?>

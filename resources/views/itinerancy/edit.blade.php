@@ -35,7 +35,7 @@
                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-left mt-3">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-left mt-3 text-end">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>

@@ -6,3 +6,61 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.form-group {
+    margin-top: 16px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .form-check-inline {
+        margin-right: 0;
+        padding-left: 1rem;
+
+        @media (min-width: 768px) {
+            padding-left: 1.5rem;
+        }
+    }
+}
+
+.badge.bg-white {
+    background-color: $white;
+    color: $black;
+    border: 1px solid $gray-500;
+}
+
+.badge.bg-orange {
+    background-color: $orange;
+    color: $white;
+}
+
+.badge.bg-warning {
+    color: $black;
+}
+
+.accordion {
+    .title-row {
+        display: grid;
+        grid-template-columns: 0.2fr 1.2fr 0.5fr 0.8fr 0.8fr;
+        justify-content: flex-start;
+        column-gap: 1.2rem;
+        width: 100%;
+        margin-right: 1.6rem;
+    }
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    background-color: $white;
+    box-shadow: 0 10px 30px rgba(0,0,0, .175);
+}

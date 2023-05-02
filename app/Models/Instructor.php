@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Discipline extends Model
+class Instructor extends Model
 {
 
-    protected $table = 'disciplines';
+    protected $table = 'instructors';
     public $timestamps = false;
 
     /**
@@ -19,8 +19,8 @@ class Discipline extends Model
         'name'
     ];
 
-    public function evaluations(): \Illuminate\Database\Eloquent\Relations\HasMany {
-        return $this->hasMany(Evaluation::class);
+    public function studentsInstructors(): \Illuminate\Database\Eloquent\Relations\HasMany {
+        return $this->hasMany(Student::class, 'instructor_id');
     }
 
 }

@@ -31,11 +31,11 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <label for="name">Name:</label>
+                    <label class="form-label" for="name">Name:</label>
                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-3 text-end">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

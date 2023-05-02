@@ -18,7 +18,9 @@ class BeltsTableSeeder extends Seeder
             'Yellow',
             'Orange',
             'Green',
-            'Grey'
+            'Grey',
+            'Blue',
+            'Red'
         ];
 
         foreach ($belts as $belt) {

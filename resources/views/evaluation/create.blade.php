@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                    <label for="discipline_id">Discipline</label>
+                    <label class="form-label" for="discipline_id">Discipline</label>
                     <select name="discipline_id" class="form-select">
                         <option selected>Select...</option>
                         @foreach($disciplines as $discipline)
@@ -42,12 +42,12 @@
             </div>
             <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                    <label for="date">Date</label>
+                    <label class="form-label" for="date">Date</label>
                     <input id="date-input" type="date" class="form-control" name="date">
                 </div>
                 <input type="hidden" class="form-control" name="itinerancy_id" value="{{ $itinerancy_id }}">
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-3 text-end">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>

@@ -91,19 +91,18 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="receipt_number">Receipt No.</label>
-                    <input type="text" class="form-control" name="receipt_number">
+                    <input type="text" class="form-control" name="receipt_number" value="{{ $student->receipt_number }}">
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
                 @foreach(range(1, 6) as $n)
                     <div class="form-group">
                         <p class="form-label">Activity {{ $n }}</p>
-                        @foreach([0, 0.25, 0.50, 0.75, 1.0] as $i)
-                            @php ($value = ($i !== 0) ? number_format((float)($i), 2, '.', '') : 0)
-                            @php ($percentage = ($i !== 0) ? number_format((float)($i * 100), 0, '.', '') . '%' : '0%')
+                        @foreach(range(0, 4) as $i)
+                            @php($name = 'activity_' . $n)
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $value }}">
-                                <label for="activity_{{ $n }}_{{ $i }}">{{ $percentage }}</label>
+                                <input @if($student[$name] === $i) checked @endif type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $i }}">
+                                <label class="ml-1" for="activity_{{ $n }}_{{ $i }}">{{ $i }}</label>
                             </div>
                         @endforeach
                     </div>
@@ -114,7 +113,7 @@
                     <select name="received_belt_id" class="form-select">
                         <option selected>Select...</option>
                         @foreach($belts as $belt)
-                            <option value="{{ $belt->id }}">{{ $belt->name }}</option>
+                            <option @if($student->received_belt_id === $belt->id) selected @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -123,13 +122,13 @@
                     <select name="received_stripes" class="form-select">
                         <option selected>Select...</option>
                         @foreach(range(0, 8) as $stripe)
-                            <option value="{{ $stripe }}">{{ $stripe }}</option>
+                            <option @if($student->received_stripes === $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="notes">Itinerant Notes</label>
-                    <textarea class="form-control" name="notes"></textarea>
+                    <textarea class="form-control" name="notes">{{ $student->notes }}</textarea>
                 </div>
             </div>
             <input type="hidden" class="form-control" name="evaluation_id" value="{{ $evaluation->id }}">

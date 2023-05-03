@@ -23,7 +23,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Username</th>
                 <th>Roles</th>
                 <th>Action</th>
             </tr>
@@ -32,7 +32,7 @@
             <tr class="align-middle">
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $user->username }}</td>
                 <td>
                     @if(!empty($user->getRoleNames()))
                         @foreach($user->getRoleNames() as $v)

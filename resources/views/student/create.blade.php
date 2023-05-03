@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="instructor_id">Instructor Name <span class="text-danger">*</span></label>
-                    <select id="instructor_id" name="instructor_id" class="form-select" required>
+                    <select id="instructor_id" name="instructor_id" class="form-select">
                         <option selected value="">Select...</option>
                         @foreach($instructors as $instructor)
                             <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="current_belt_id">Current Belt <span class="text-danger">*</span></label>
-                    <select id="current_belt_id" name="current_belt_id" class="form-select" required>
+                    <select id="current_belt_id" name="current_belt_id" class="form-select">
                         <option selected value="">Select...</option>
                         @foreach($belts as $belt)
                             <option value="{{ $belt->id }}">{{ $belt->name }}</option>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="has_stripes">Has Stripes? <span class="text-danger">*</span></label>
-                    <select id="has_stripes" name="has_stripes" class="form-select" required>
+                    <select id="has_stripes" name="has_stripes" class="form-select">
                         <option selected value="">Select...</option>
                         @foreach(range(0, 8) as $stripe)
                             <option value="{{ $stripe }}">{{ $stripe }}</option>
@@ -69,17 +69,17 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="months_practice">How Many Months Practicing? <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" name="months_practice" required>
+                    <input type="number" class="form-control" name="months_practice">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="age">Student's Age <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" name="age" required>
+                    <input type="number" class="form-control" name="age">
                 </div>
                 <div class="form-group">
                     <p class="form-label">Does this student require a Patch only, or Belt and Patch? <span class="text-danger">*</span></p>
                     @foreach($evaluationOptions as $evaluationOption)
                         <div class="form-check form-check-inline">
-                            <input type="radio" id="{{ strtolower(str_replace(' ', '_', $evaluationOption)) }}" name="evaluating_for" value="{{ $evaluationOption }}" required>
+                            <input type="radio" id="{{ strtolower(str_replace(' ', '_', $evaluationOption)) }}" name="evaluating_for" value="{{ $evaluationOption }}">
                             <label for="{{ strtolower(str_replace(' ', '_', $evaluationOption)) }}">{{ $evaluationOption }}</label>
                         </div>
                     @endforeach
@@ -87,7 +87,7 @@
                 <div class="form-group">
                     <p class="form-label">Is Evaluation Paid? <span class="text-danger">*</span></p>
                     <div class="form-check form-check-inline">
-                        <input type="radio" id="yes" name="is_paid" value="1" required>
+                        <input type="radio" id="yes" name="is_paid" value="1">
                         <label for="yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">

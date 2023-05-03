@@ -30,7 +30,7 @@ class StudentController extends Controller
         $this->middleware('permission:student-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:student-delete', ['only' => ['destroy']]);
         $this->middleware('permission:itinerancy-list', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
-        $this->middleware('permission:itinerancy-update', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
+        $this->middleware('permission:itinerancy-edit', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
     }
 
   /**
@@ -92,15 +92,7 @@ class StudentController extends Controller
      */
   public function store(Request $request): \Illuminate\Http\RedirectResponse {
       $this->validate($request, [
-          'name' => 'required',
-          'instructor_id' => 'required',
-          'current_belt_id' => 'required',
-          'has_stripes' => 'required',
-          'months_practice' => 'required',
-          'age' => 'required',
-          'evaluating_for' => 'required',
-          'is_paid' => 'required',
-          'evaluation_id' => 'required'
+          'name' => 'required'
       ]);
 
       $input = $request->all();

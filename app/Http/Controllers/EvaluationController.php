@@ -33,7 +33,9 @@ class EvaluationController extends Controller
    *
    * @return Response
    */
-  public function index() {}
+  public function index() {
+      return redirect()->route('itinerancies.index');
+  }
 
     /**
      * Show the form for creating a new resource.

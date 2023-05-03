@@ -17,6 +17,16 @@
         </div>
     </div>
 
+    <div class="row my-4 d-flex flex-row">
+        <div class="col col-sm-12 margin-tb">
+            <div class="row">
+                <div class="col col-sm-8">
+                    <h3 class="mb-0">Itinerancies</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p class="m-0">{{ $message }}</p>

@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
 
     Route::get('/evaluations/create/{itinerancy_id}', [ EvaluationController::class, 'create', 'itinerancy_id' ]);
-    Route::get('/students/create/{evaluation_id}', [ StudentController::class, 'create', 'evaluation_id' ]);
+    Route::get('/students/create/{evaluation_id}/{from_itinerancy_view?}', [ StudentController::class, 'create' ]);
     Route::get('/students/itinerant_view/{evaluation_id}', [ StudentController::class, 'itinerantView', 'evaluation_id' ])->name('itinerant_view');
     Route::get('/itinerancy/export/{itinerancy_id}', [ItinerancyController::class, 'export', 'itinerancy_id'])->name('itinerancies.export');
 

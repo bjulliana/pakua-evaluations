@@ -27,9 +27,17 @@
                 </a>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('itinerancies.index') }}">Itinerancies</a>
-                        </li>
+                        @role('Admin')
+                            <a class="nav-link" aria-current="page" href="{{ route('users.index') }}">Users</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('roles.index') }}">Roles</a>
+                        @endrole
+                        @guest
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{ route('itinerancies.index') }}">Itinerancies</a>
+                            </li>
+
+                        @endguest
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

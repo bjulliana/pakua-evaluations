@@ -8,7 +8,7 @@
                     <h2 class="mb-0">{{ $itinerancy->name }}</h2>
                 </div>
                 <div class="col col-sm-4 d-flex justify-content-end">
-                    <a class="btn btn-primary" href="{{ route('itinerancies.index') }}"> Back</a>
+                    <a class="btn btn-secondary" href="{{ route('itinerancies.index') }}"> Back</a>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                     <td>{{ $evaluation->date->format('F j, Y') }}</td>
                     <td align="right">
                         @if (is_countable($evaluation->students) && count($evaluation->students) > 0)
-                            @role('Admin')
+                            @role(['Admin', 'Itinerant'])
                                 <a class="btn btn-primary" href="{{ route('itinerant_view', $evaluation->id) }}">Itinerant View</a>
                             @endrole
                         @endif

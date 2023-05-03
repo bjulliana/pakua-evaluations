@@ -26,6 +26,8 @@ class ItinerancyController extends Controller
         $this->middleware('permission:itinerancy-create', ['only' => ['create','store']]);
         $this->middleware('permission:itinerancy-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:itinerancy-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:itinerancy-view', ['only' => ['export']]);
+        $this->middleware('permission:itinerancy-update', ['only' => ['export']]);
     }
 
   /**

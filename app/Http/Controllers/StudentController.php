@@ -29,6 +29,8 @@ class StudentController extends Controller
         $this->middleware('permission:student-create', ['only' => ['create','store']]);
         $this->middleware('permission:student-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:student-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:itinerancy-list', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
+        $this->middleware('permission:itinerancy-update', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
     }
 
   /**
@@ -64,9 +66,10 @@ class StudentController extends Controller
      *
      * @return \Illuminate\View\View
      */
-  public function create($evaluation_id): \Illuminate\View\View {
+  public function create($evaluation_id, $from_itinerancy_view = false): \Illuminate\View\View {
       $user = auth()->user();
       $role = ($user) ? $user->getRoleNames()[0] : null;
+      $referrer = ($from_itinerancy_view) ? '/students/itinerant_view/' . $evaluation_id : '/evaluations/' . $evaluation_id;
 
       $data = [
           'belts' => Belt::get(),
@@ -74,6 +77,7 @@ class StudentController extends Controller
           'evaluationOptions' => Student::EVALUATION_OPTIONS,
           'evaluation' => Evaluation::find($evaluation_id),
           'canAddResults' => $role && (($role === Role::ADMIN || $role === Role::ITINERANT)),
+          'referrer' => $referrer
       ];
 
       return view('student.create', $data);

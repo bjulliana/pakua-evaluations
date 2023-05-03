@@ -8,7 +8,7 @@
                     <h2 class="mb-0">Create Evaluation</h2>
                 </div>
                 <div class="col col-sm-4 d-flex justify-content-end">
-                    <a class="btn btn-primary" href="{{ route('itinerancies.show', $itinerancy_id) }}"> Back</a>
+                    <a class="btn btn-secondary" href="{{ route('itinerancies.show', $itinerancy_id) }}"> Back</a>
                 </div>
             </div>
         </div>

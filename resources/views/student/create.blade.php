@@ -8,7 +8,7 @@
                     <h2 class="mb-0">Create Student</h2>
                 </div>
                 <div class="col col-sm-4 d-flex justify-content-end">
-                    <a class="btn btn-primary" href="{{ route('evaluations.show', $evaluation->id) }}"> Back</a>
+                    <a class="btn btn-secondary" href="{{ $referrer }}"> Back</a>
                 </div>
                 <h3 class="h5 mt-2">{{ $evaluation->discipline->name }} - {{ $evaluation->date->format('F j, Y') }}</h3>
             </div>
@@ -141,7 +141,8 @@
             @endif
             <input type="hidden" class="form-control" name="evaluation_id" value="{{ $evaluation->id }}">
             <div class="col-xs-12 col-sm-12 col-md-12 mt-3 text-end">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary mr-2" href="{{ $referrer }}"> Back</a>
+                <button type="submit" class="btn btn-primary">Save & Create Another</button>
             </div>
         </div>
     {!! Form::close() !!}

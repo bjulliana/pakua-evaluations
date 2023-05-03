@@ -9,9 +9,9 @@
                 </div>
                 <div class="col-sm-12 col-md-5 col-lg-4 d-md-flex justify-content-end align-items-center">
                     @can('student-create')
-                        <a class="btn btn-success mr-2" href="{{ url('students/create', [ "evaluation_id" => $evaluation->id ]) }}"> Create New Student</a>
+                        <a class="btn btn-success mr-2" href="{{ url('students/create', [ "evaluation_id" => $evaluation->id, 'from_itinerancy_view' => "true" ]) }}"> Create New Student</a>
                     @endcan
-                    <a class="btn btn-primary" href="{{ route('itinerancies.show', $evaluation->itinerancy_id) }}"> Back</a>
+                    <a class="btn btn-secondary" href="{{ route('itinerancies.show', $evaluation->itinerancy_id) }}"> Back</a>
                 </div>
             </div>
         </div>

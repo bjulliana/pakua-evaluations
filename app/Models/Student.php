@@ -40,7 +40,8 @@ class Student extends Model
         'activity_6',
         'received_belt_id',
         'received_stripes',
-        'notes'
+        'notes',
+        'order'
     ];
 
     public function evaluation(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
@@ -59,4 +60,7 @@ class Student extends Model
         return $this->belongsTo(Instructor::class);
     }
 
+    public static function getLastStudentCreatedForEvaluation($evaluation_id) {
+        return self::where('evaluation_id', $evaluation_id)->orderBy('id', 'DESC')->first();
+    }
 }

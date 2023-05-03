@@ -24,31 +24,33 @@
     @endif
 
 
-    <table class="table table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        @foreach ($data as $key => $itinerancy)
-            <tr class="align-middle">
-                <td>{{ $itinerancy->id }}</td>
-                <td>{{ $itinerancy->name }}</td>
-                <td>
-                    @can('itinerancy-edit')
-                        <a class="btn btn-primary" href="{{ route('itinerancies.edit',$itinerancy->id) }}">Edit</a>
-                    @endcan
-                    @can('itinerancy-delete')
-                        {!! Form::open(['method' => 'DELETE','route' => ['itinerancies.destroy', $itinerancy->id],'style'=>'display:inline']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    @endcan
-                </td>
-            </tr>
-        @endforeach
-    </table>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @foreach ($data as $key => $itinerancy)
+                <tr class="align-middle">
+                    <td>{{ $itinerancy->id }}</td>
+                    <td>{{ $itinerancy->name }}</td>
+                    <td>
+                        @can('itinerancy-edit')
+                            <a class="btn btn-primary" href="{{ route('itinerancies.edit',$itinerancy->id) }}">Edit</a>
+                        @endcan
+                        @can('itinerancy-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['itinerancies.destroy', $itinerancy->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
 
 
     {!! $data->render() !!}

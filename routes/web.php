@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ ItinerancyController::class, 'index' ]);
 
 Auth::routes();
 
@@ -31,13 +29,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/evaluations/create/{itinerancy_id}', [ EvaluationController::class, 'create', 'itinerancy_id' ]);
     Route::get('/students/create/{evaluation_id}', [ StudentController::class, 'create', 'evaluation_id' ]);
     Route::get('/students/itinerant_view/{evaluation_id}', [ StudentController::class, 'itinerantView', 'evaluation_id' ])->name('itinerant_view');
-    Route::post('/students/itinerant_view/update', [ StudentController::class, 'itinerantUpdate' ])->name('itinerant_view_update');
     Route::get('/itinerancy/export/{itinerancy_id}', [ItinerancyController::class, 'export', 'itinerancy_id'])->name('itinerancies.export');
+
+    Route::post('/students/itinerant_view/update', [ StudentController::class, 'itinerantUpdate' ])->name('itinerant_view_update');
+    Route::post('/students/update_order', [ StudentController::class, 'updateOrder' ]);
 
     Route::resource('itinerancies', ItinerancyController::class);
     Route::resource('evaluations', EvaluationController::class);
     Route::resource('students', StudentController::class);
-
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

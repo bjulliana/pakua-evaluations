@@ -7,7 +7,9 @@ use App\Models\Evaluation;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class StudentController extends Controller
 {
@@ -43,7 +45,7 @@ class StudentController extends Controller
 
       $evaluation = Evaluation::find($evaluation_id);
 
-      $students = Student::where('evaluation_id', $evaluation->id)->get();
+      $students = Student::where('evaluation_id', $evaluation->id)->orderBy('order', 'ASC')->get();
 
       $data = [
           'belts' => Belt::get(),
@@ -98,8 +100,18 @@ class StudentController extends Controller
       ]);
 
       $input = $request->all();
+      $lastStudentCreated = Student::getLastStudentCreatedForEvaluation($input['evaluation_id']);
 
       $student = Student::create($input);
+
+      // Update Order
+      if ($lastStudentCreated) {
+          $student->order = $lastStudentCreated->order + 1;
+      } else {
+          $student->order = 1;
+      }
+
+      $student->save();
 
       return redirect('/students/create/' . $student->evaluation_id)->with('success','Student created successfully');
   }
@@ -207,6 +219,52 @@ class StudentController extends Controller
 
         return redirect()->route('evaluations.show', $evaluation_id)
                          ->with('success','Student deleted successfully');
+    }
+
+    public function updateOrder(Request $request)
+    {
+
+        try {
+            $data = $request->all();
+            $originalStudents = Student::where('evaluation_id', $data['evaluation_id'])->get()->all();
+            $updatedStudents = $data['students'];
+
+            if (is_array($updatedStudents) && count($updatedStudents) > 0) {
+                $order = 1;
+                $studentsById = $this->index_array_objects_by_field($originalStudents, 'id');
+                foreach ($updatedStudents as $updatedStudent) {
+                    $student = $studentsById[$updatedStudent['id']];
+                    $student->order = $order;
+                    $student->save();
+                    $order++;
+                }
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Students Order Updated'
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+             ]);
+        }
+
+    }
+
+    function index_array_objects_by_field($array, $field)
+    {
+        if (!is_array($array)) throw new Exception("Not an array");
+
+        $resultSet = array();
+        foreach ($array as $element) {
+            if (!isset($element[$field])) throw new Exception("One or more elements does not contain property '$field'");
+            $rs_key = $element[$field];
+            $resultSet[$rs_key] = $element;
+        }
+
+        return $resultSet;
     }
 
 }

@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->integer('received_belt_id')->unsigned()->nullable();
             $table->tinyInteger('received_stripes')->nullable();
 			$table->text('notes')->nullable();
+            $table->integer('order')->nullable();
 		});
 	}
 

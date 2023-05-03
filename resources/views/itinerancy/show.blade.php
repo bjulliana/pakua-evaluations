@@ -35,32 +35,39 @@
         </div>
     @endif
 
-    <table class="table table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Discipline</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        @foreach ($evaluations as $key => $evaluation)
-            <tr class="align-middle">
-                <td>{{ $evaluation->id }}</td>
-                <td>{{ $evaluation->discipline->name }}</td>
-                <td>{{ $evaluation->date->format('F j, Y') }}</td>
-                <td>
-                    <a class="btn btn-info" href="{{ route('evaluations.show', $evaluation->id) }}">View</a>
-                    @can('evaluation-edit')
-                        <a class="btn btn-primary" href="{{ route('evaluations.edit',$evaluation->id) }}">Edit</a>
-                    @endcan
-                    @can('evaluation-delete')
-                        {!! Form::open(['method' => 'DELETE','route' => ['evaluations.destroy', $evaluation->id],'style'=>'display:inline']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    @endcan
-                </td>
-            </tr>
-        @endforeach
-    </table>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Discipline</th>
+                    <th>Date</th>
+                    <th style="text-align: center">Action</th>
+                </tr>
+            </thead>
+            @foreach ($evaluations as $key => $evaluation)
+                <tr class="align-middle">
+                    <td>{{ $evaluation->id }}</td>
+                    <td>{{ $evaluation->discipline->name }}</td>
+                    <td>{{ $evaluation->date->format('F j, Y') }}</td>
+                    <td align="right">
+                        @if (is_countable($evaluation->students) && count($evaluation->students) > 0)
+                            @role('Admin')
+                                <a class="btn btn-primary" href="{{ route('itinerant_view', $evaluation->id) }}">Itinerant View</a>
+                            @endrole
+                        @endif
+                        <a class="btn btn-info" href="{{ route('evaluations.show', $evaluation->id) }}">View</a>
+                        @can('evaluation-edit')
+                            <a class="btn btn-primary" href="{{ route('evaluations.edit',$evaluation->id) }}">Edit</a>
+                        @endcan
+                        @can('evaluation-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['evaluations.destroy', $evaluation->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
 @endsection

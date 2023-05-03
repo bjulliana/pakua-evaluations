@@ -41,5 +41,4 @@ class Evaluation extends Model
     public function discipline(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
         return $this->belongsTo(Discipline::class);
     }
-
 }

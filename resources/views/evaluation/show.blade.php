@@ -35,35 +35,33 @@
         </div>
     @endif
 
-    <table class="table table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Current Belt</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        @foreach ($students as $key => $student)
-            <tr class="align-middle">
-                <td>{{ $student->id }}</td>
-                <td>{{ $student->name }}</td>
-                <td><span class="badge bg-{{ $student->currentBelt->badgeClass() }}">{{ $student->currentBelt->name }}</span></td>
-                <td>
-                    @role('Admin')
-                        <a class="btn btn-primary" href="{{ route('itinerant_view', $evaluation->id) }}">Itinerant View</a>
-                    @endrole
-                    <a class="btn btn-info" href="{{ route('students.show', $student->id) }}">View</a>
-                    @can('student-edit')
-                        <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
-                    @endcan
-                    @can('student-delete')
-                        {!! Form::open(['method' => 'DELETE','route' => ['students.destroy', $student->id],'style'=>'display:inline']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    @endcan
-                </td>
-            </tr>
-        @endforeach
-    </table>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr class="align-middle">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Current Belt</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @foreach ($students as $key => $student)
+                <tr class="align-middle">
+                    <td>{{ $student->id }}</td>
+                    <td>{{ $student->name }}</td>
+                    <td><span class="badge bg-{{ $student->currentBelt->badgeClass() }}">{{ $student->currentBelt->name }}</span></td>
+                    <td align="right">
+                        @can('student-edit')
+                            <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
+                        @endcan
+                        @can('student-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['students.destroy', $student->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
 @endsection

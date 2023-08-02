@@ -31,8 +31,8 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label class="form-label" for="discipline">Discipline</label>
-                <select name="discipline" class="form-select">
+                <label class="form-label" for="discipline_id">Discipline</label>
+                <select name="discipline_id" class="form-select">
                     @foreach($disciplines as $discipline)
                         <option value="{{ $discipline->id }}" @if($discipline->id === $evaluation->discipline_id) selected @endif>{{ $discipline->name }}</option>
                     @endforeach

@@ -49,7 +49,7 @@
                 <tr class="align-middle">
                     <td>{{ $student->id }}</td>
                     <td>{{ $student->name }}</td>
-                    <td><span class="badge bg-{{ $student->currentBelt->badgeClass() }}">{{ $student->currentBelt->name }}</span></td>
+                    <td><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></td>
                     <td align="right">
                         @can('student-edit')
                             <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>

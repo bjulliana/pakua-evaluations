@@ -33,7 +33,7 @@
                                 <span class="row-drag-icon"><i class="bi bi-arrows-move"></i></span>
                                 <span class="row-id"><strong class="d-none d-md-inline"># </strong>{{ $student->order }}</span>
                                 <span class="row-name"><strong class="d-none d-md-inline">Student: </strong>{{ $student->name }}</span>
-                                <span class="row-belt d-flex align-items-center"><strong class="d-none d-md-inline mr-1">Current Belt: </strong><span class="badge bg-{{ $student->currentBelt->badgeClass() }}">{{ $student->currentBelt->name }}</span></span>
+                                <span class="row-belt d-flex align-items-center"><strong class="d-none d-md-inline mr-1">Current Belt: </strong><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></span>
                             </div>
                         </button>
                     </h2>
@@ -41,7 +41,7 @@
                         <div class="accordion-body pb-5">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    <p><strong>Instructor: </strong> {{ $student->instructor->name }}</p>
+                                    <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>
                                     <p><strong>Evaluating For: </strong> {{ $student->evaluating_for }}</p>
                                     <p><strong>Current Stripes: </strong> {{ $student->has_stripes }} Months</p>
                                 </div>

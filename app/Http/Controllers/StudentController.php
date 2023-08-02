@@ -31,6 +31,24 @@ class StudentController extends Controller {
         $this->middleware('permission:itinerancy-edit', ['only' => ['itinerant_view/update', 'update_order', 'itinerant_view']]);
     }
 
+    public function attributes(): array {
+        return [
+            'name'            => 'Name',
+            'instructor_id'   => 'Instructor',
+            'current_belt_id' => 'Current Belt',
+            'has_stripes'     => 'Stripes',
+            'months_practice' => 'Months of Practice',
+            'age'             => 'Age',
+            'is_paid'         => 'Paid Status'
+        ];
+    }
+
+    public function messages(): array {
+        return [
+            'evaluating_for.required' => 'It is necessary to select if the student requires belt, patch or both'
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -98,9 +116,13 @@ class StudentController extends Controller {
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse {
+        $submitValue = $request->input('submit');
+
         $this->validate($request, [
-            'name' => 'required'
-        ]);
+            'name' => 'required',
+            'instructor_id'   => 'required',
+            'current_belt_id' => 'required'
+        ], $this->messages(), $this->attributes());
 
         $input              = $request->all();
         $lastStudentCreated = Student::getLastStudentCreatedForEvaluation($input['evaluation_id']);
@@ -116,7 +138,11 @@ class StudentController extends Controller {
 
         $student->save();
 
-        return redirect('/students/create/' . $student->evaluation_id)->with('success', 'Student created successfully');
+        if ((int)$submitValue === 0) {
+            return redirect('/evaluations/' . $student->evaluation_id)->with('success', 'Student created successfully');
+        } else {
+            return redirect('/students/create/' . $student->evaluation_id)->with('success', 'Student created successfully');
+        }
     }
 
     public function itinerantUpdate(Request $request): \Illuminate\Http\RedirectResponse {
@@ -192,13 +218,8 @@ class StudentController extends Controller {
             'name'            => 'required',
             'instructor_id'   => 'required',
             'current_belt_id' => 'required',
-            'has_stripes'     => 'required',
-            'months_practice' => 'required',
-            'age'             => 'required',
-            'evaluating_for'  => 'required',
-            'is_paid'         => 'required',
             'evaluation_id'   => 'required'
-        ]);
+        ], $this->messages(), $this->attributes());
 
         $student = Student::find($id);
         $student->fill($request->all());
@@ -243,14 +264,14 @@ class StudentController extends Controller {
             }
 
             return response()->json([
-                                        'status'  => 'success',
-                                        'message' => 'Students Order Updated'
-                                    ]);
+                'status'  => 'success',
+                'message' => 'Students Order Updated'
+            ]);
         } catch (Throwable $e) {
             return response()->json([
-                                        'status'  => 'error',
-                                        'message' => $e->getMessage()
-                                    ]);
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 

@@ -42,7 +42,7 @@
                     <th>ID</th>
                     <th>Discipline</th>
                     <th>Date</th>
-                    <th style="text-align: center">Action</th>
+                    <th style="text-align: center">Actions</th>
                 </tr>
             </thead>
             @foreach ($evaluations as $key => $evaluation)
@@ -53,10 +53,15 @@
                     <td align="right">
                         @if (is_countable($evaluation->students) && count($evaluation->students) > 0)
                             @role(['Admin', 'Itinerant'])
+                                <a class="btn btn-success" href="{{ route('results', $evaluation->id) }}">Results</a>
+                            @endrole
+                        @endif
+                        @if (is_countable($evaluation->students) && count($evaluation->students) > 0)
+                            @role(['Admin', 'Itinerant'])
                                 <a class="btn btn-primary" href="{{ route('itinerant_view', $evaluation->id) }}">Itinerant View</a>
                             @endrole
                         @endif
-                        <a class="btn btn-info" href="{{ route('evaluations.show', $evaluation->id) }}">View</a>
+                        <a class="btn btn-info" href="{{ route('evaluations.show', $evaluation->id) }}">View Students</a>
                         @can('evaluation-edit')
                             <a class="btn btn-primary" href="{{ route('evaluations.edit',$evaluation->id) }}">Edit</a>
                         @endcan

@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/students/create/{evaluation_id}/{from_itinerancy_view?}', [ StudentController::class, 'create' ]);
     Route::get('/students/itinerant_view/{evaluation_id}', [ StudentController::class, 'itinerantView', 'evaluation_id' ])->name('itinerant_view');
     Route::get('/itinerancy/export/{itinerancy_id}', [ItinerancyController::class, 'export', 'itinerancy_id'])->name('itinerancies.export');
+    Route::get('/results/{evaluation_id}', [ EvaluationController::class, 'results', 'evaluation_id' ])->name('results');
 
     Route::post('/students/itinerant_view/update', [ StudentController::class, 'itinerantUpdate' ])->name('itinerant_view_update');
     Route::post('/students/update_order', [ StudentController::class, 'updateOrder' ]);

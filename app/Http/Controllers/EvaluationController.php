@@ -124,6 +124,20 @@ class EvaluationController extends Controller
     }
 
     /**
+     * Display the results of an evaluation
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function results($id): View
+    {
+        $evaluation = Evaluation::find($id);
+        $students = Student::where("evaluation_id", $id)->get();
+
+        return view('evaluation.results', compact('evaluation', 'students'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

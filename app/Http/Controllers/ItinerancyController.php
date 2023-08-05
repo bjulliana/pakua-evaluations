@@ -22,12 +22,10 @@ class ItinerancyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:itinerancy-list', ['only' => ['index','store']]);
+        $this->middleware('permission:itinerancy-list', ['only' => ['index','store','export']]);
         $this->middleware('permission:itinerancy-create', ['only' => ['create','store']]);
-        $this->middleware('permission:itinerancy-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:itinerancy-edit', ['only' => ['edit','update','export']]);
         $this->middleware('permission:itinerancy-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:itinerancy-view', ['only' => ['export']]);
-        $this->middleware('permission:itinerancy-edit', ['only' => ['export']]);
     }
 
   /**

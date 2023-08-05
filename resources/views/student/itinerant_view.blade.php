@@ -74,10 +74,13 @@
                                         <div class="form-group">
                                             <label class="form-label" for="students[{{ $student->id }}][received_belt_id]">Received Belt</label>
                                             <select id="students[{{ $student->id }}][received_belt_id]" name="students[{{ $student->id }}][received_belt_id]" class="form-select">
-                                                <option @if(!old('received_belt_id', $student->received_belt_id)) selected @endif value="">Select...</option>
+                                                <option @if(!old('students[' . $student->id . '][received_belt_id]', $student->received_belt_id)) selected @endif value="">Select...</option>
                                                 @foreach($belts as $belt)
-                                                    <option @if(old('received_belt_id', (string) $student->received_belt_id) === (string) $belt->id) @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
+                                                    @if ($belt->id !== 1)
+                                                        <option @if(old('students[' . $student->id . '][received_belt_id]', (string) $student->received_belt_id) === (string) $belt->id) selected @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
+                                                    @endif
                                                 @endforeach
+
                                             </select>
                                         </div>
                                     </div>
@@ -85,9 +88,9 @@
                                         <div class="form-group">
                                             <label class="form-label" for="students[{{ $student->id }}][received_stripes]">Received Stripes?</label>
                                             <select name="students[{{ $student->id }}][received_stripes]" id=students[{{ $student->id }}][received_stripes]" class="form-select">
-                                                <option @if(!old('received_stripes', $student->received_stripes)) selected @endif value="">Select...</option>
+                                                <option @if(!old('students[' . $student->id . '][received_stripes]', $student->received_stripes)) selected @endif value="">Select...</option>
                                                 @foreach(range(0, 8) as $stripe)
-                                                    <option @if(old('received_stripes', (string) $student->received_stripes) === (string) $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
+                                                    <option @if(old('students[' . $student->id . '][received_stripes]', (string) $student->received_stripes) === (string) $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

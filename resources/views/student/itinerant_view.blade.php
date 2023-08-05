@@ -60,7 +60,7 @@
                                             @foreach(range(0, 4) as $i)
                                                 <div class="form-check form-check-inline">
                                                     @php($name = 'activity_' . $n)
-                                                    <input type="radio" @if($student[$name] === $i) checked @endif id="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]" name="students[{{ $student->id }}][activity_{{ $n }}]" value="{{ $i }}">
+                                                    <input type="radio" @if(old('activity_' . $n, (string) $student[$name]) === (string) $i) checked @endif id="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]" name="students[{{ $student->id }}][activity_{{ $n }}]" value="{{ $i }}">
                                                     <label class="ml-1" for="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]">{{ $i }}</label>
                                                 </div>
                                             @endforeach
@@ -74,9 +74,9 @@
                                         <div class="form-group">
                                             <label class="form-label" for="students[{{ $student->id }}][received_belt_id]">Received Belt</label>
                                             <select id="students[{{ $student->id }}][received_belt_id]" name="students[{{ $student->id }}][received_belt_id]" class="form-select">
-                                                <option selected value="">Select...</option>
+                                                <option @if(!old('received_belt_id', $student->received_belt_id)) selected @endif value="">Select...</option>
                                                 @foreach($belts as $belt)
-                                                    <option @if($student->received_belt_id === $belt->id) selected @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
+                                                    <option @if(old('received_belt_id', (string) $student->received_belt_id) === (string) $belt->id) @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -85,9 +85,9 @@
                                         <div class="form-group">
                                             <label class="form-label" for="students[{{ $student->id }}][received_stripes]">Received Stripes?</label>
                                             <select name="students[{{ $student->id }}][received_stripes]" id=students[{{ $student->id }}][received_stripes]" class="form-select">
-                                                <option selected value="">Select...</option>
+                                                <option @if(!old('received_stripes', $student->received_stripes)) selected @endif value="">Select...</option>
                                                 @foreach(range(0, 8) as $stripe)
-                                                    <option @if($student->received_stripes === $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
+                                                    <option @if(old('received_stripes', (string) $student->received_stripes) === (string) $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="students[{{ $student->id }}][notes]">Itinerant Notes</label>
-                                    <textarea class="form-control" id="students[{{ $student->id }}][notes]" name="students[{{ $student->id }}][notes]">{{ $student->notes }}</textarea>
+                                    <textarea class="form-control" id="students[{{ $student->id }}][notes]" name="students[{{ $student->id }}][notes]">{{ old('notes', $student->notes) }}</textarea>
                                 </div>
                                 <input type="hidden" id="students[{{ $student->id }}][id]" name="students[{{ $student->id }}][id]" value="{{ $student->id }}">
                             </div>

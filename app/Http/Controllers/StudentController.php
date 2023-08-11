@@ -185,7 +185,6 @@ class StudentController extends Controller {
      */
     public function show($id): \Illuminate\View\View {
         $student = Student::find($id);
-        $photoUrl = Storage::url('file.jpg');
 
         return view('student.show', compact('student'));
     }

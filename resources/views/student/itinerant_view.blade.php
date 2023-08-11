@@ -44,7 +44,7 @@
                                 @if ($student->photo)
                                     <div class="row">
                                         <div class="col-sm-12 col-md-4">
-                                            <img class="student-photo student-photo__lg" src="{{ Storage::url('images/students/' . $student->photo) }}"/>
+                                            <img class="student-photo student-photo__lg" src="{{ asset('storage/images/students/' . $student->photo) }}"/>
                                         </div>
                                         <div class="col-sm-12 col-md-8">
                                             <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>

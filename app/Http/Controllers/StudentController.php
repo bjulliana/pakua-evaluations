@@ -123,7 +123,7 @@ class StudentController extends Controller {
             'name'              => 'required',
             'instructor_id'     => 'required',
             'current_belt_id'   => 'required',
-            'photo'             => 'image|mimes:jpeg,png,jpg|max:2048'
+            'photo'             => 'image|mimes:jpeg,png,jpg'
         ], $this->messages(), $this->attributes());
 
 
@@ -229,7 +229,7 @@ class StudentController extends Controller {
             'instructor_id'   => 'required',
             'current_belt_id' => 'required',
             'evaluation_id'   => 'required',
-            'photo'           => 'image|mimes:jpeg,png,jpg|max:2048'
+            'photo'           => 'image|mimes:jpeg,png,jpg'
         ], $this->messages(), $this->attributes());
 
         $student = Student::find($id);

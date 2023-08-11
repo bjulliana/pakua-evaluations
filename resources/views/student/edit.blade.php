@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label class="form-label" for="photo">Student Photo</label>
                     @if ($student->photo)
-                        <img class="mb-4" id="preview" src="{{ asset('storage/images/' . $student->photo) }}"/>
+                        <img class="mb-4" id="preview" src="{{ asset('storage/public/images/' . $student->photo) }}"/>
                     @else
                         <img class="mb-4" id="preview" src="#" style="display:none;"/>
                     @endif

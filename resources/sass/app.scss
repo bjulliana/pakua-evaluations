@@ -98,3 +98,20 @@
     z-index: 999;
     background-color: $success !important;
 }
+
+#preview {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 200px;
+}
+
+.student-photo {
+    max-width: 70px;
+    height: auto;
+    margin-bottom: 16px;
+
+    &__lg {
+        max-width: 100px;
+    }
+}

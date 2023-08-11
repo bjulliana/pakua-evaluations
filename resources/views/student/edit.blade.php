@@ -27,9 +27,18 @@
     @endif
 
 
-    {!! Form::model($student, ['method' => 'PATCH','route' => ['students.update', $student->id]]) !!}
+    {!! Form::model($student, ['method' => 'PATCH','route' => ['students.update', $student->id], 'files' => true]) !!}
         <div class="row">
             <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label class="form-label" for="photo">Student Photo</label>
+                    @if ($student->photo)
+                        <img class="mb-4" id="preview" src="{{ asset('storage/images/students/' . $student->photo) }}"/>
+                    @else
+                        <img class="mb-4" id="preview" src="#" style="display:none;"/>
+                    @endif
+                    <input type="file" class="form-control" id="photo" name="photo">
+                </div>
                 <div class="form-group">
                     <label class="form-label" for="name">Student Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="name" required value="{{old('name', $student->name)}}">

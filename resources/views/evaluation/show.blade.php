@@ -40,6 +40,7 @@
             <thead class="table-light">
                 <tr class="align-middle">
                     <th>ID</th>
+                    <th>Photo</th>
                     <th>Name</th>
                     <th>Current Belt</th>
                     <th>Action</th>
@@ -48,6 +49,7 @@
             @foreach ($students as $key => $student)
                 <tr class="align-middle">
                     <td>{{ $student->id }}</td>
+                    <td>@if ($student->photo) <img class="student-photo" src="{{ asset('storage/images/students/' . $student->photo) }}"/> @else - @endif</td>
                     <td>{{ $student->name }}</td>
                     <td><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></td>
                     <td align="right">

@@ -33,9 +33,14 @@
     @endif
 
 
-    {!! Form::open(array('route' => 'students.store','method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'students.store','method'=>'POST', 'files' => true)) !!}
         <div class="row">
             <div class="col-sm-12 @if($canAddResults) col-md-6 @endif">
+                <div class="form-group">
+                    <label class="form-label" for="photo">Student Photo</label>
+                    <img class="mb-4" id="preview" src="#" style="display:none;"/>
+                    <input type="file" class="form-control" id="photo" name="photo">
+                </div>
                 <div class="form-group">
                     <label class="form-label" for="name">Student Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>

@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class StudentController extends Controller {
@@ -119,10 +120,12 @@ class StudentController extends Controller {
         $submitValue = $request->input('submit');
 
         $this->validate($request, [
-            'name' => 'required',
-            'instructor_id'   => 'required',
-            'current_belt_id' => 'required'
+            'name'              => 'required',
+            'instructor_id'     => 'required',
+            'current_belt_id'   => 'required',
+            'photo'             => 'image|mimes:jpeg,png,jpg|max:2048'
         ], $this->messages(), $this->attributes());
+
 
         $input              = $request->all();
         $lastStudentCreated = Student::getLastStudentCreatedForEvaluation($input['evaluation_id']);
@@ -134,6 +137,12 @@ class StudentController extends Controller {
             $student->order = $lastStudentCreated->order + 1;
         } else {
             $student->order = 1;
+        }
+
+        if ($request->photo) {
+            $fileName = time() . '.' . $request->photo->extension();
+            $request->photo->storeAs('public/images/students', $fileName);
+            $student->photo = $fileName;
         }
 
         $student->save();
@@ -176,6 +185,7 @@ class StudentController extends Controller {
      */
     public function show($id): \Illuminate\View\View {
         $student = Student::find($id);
+        $photoUrl = Storage::url('file.jpg');
 
         return view('student.show', compact('student'));
     }
@@ -218,11 +228,19 @@ class StudentController extends Controller {
             'name'            => 'required',
             'instructor_id'   => 'required',
             'current_belt_id' => 'required',
-            'evaluation_id'   => 'required'
+            'evaluation_id'   => 'required',
+            'photo'           => 'image|mimes:jpeg,png,jpg|max:2048'
         ], $this->messages(), $this->attributes());
 
         $student = Student::find($id);
         $student->fill($request->all());
+
+        if ($request->photo) {
+            $fileName = time() . '.' . $request->photo->extension();
+            $request->photo->storeAs('public/images/students', $fileName);
+            $student->photo = $fileName;
+        }
+
         $student->save();
 
         return redirect()->route('evaluations.show', $student->evaluation_id)
@@ -239,6 +257,11 @@ class StudentController extends Controller {
     public function destroy(int $id): \Illuminate\Http\RedirectResponse {
         $student       = Student::find($id);
         $evaluation_id = $student->evaluation_id;
+
+        if (Storage::exists(public_path('images/students/' . $student->photo))) {
+            Storage::delete(public_path('images/students/' . $student->photo));
+        }
+
         $student->delete();
 
         return redirect()->route('evaluations.show', $evaluation_id)

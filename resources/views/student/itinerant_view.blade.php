@@ -41,10 +41,24 @@
                         <div class="accordion-body pb-5">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
+                                @if ($student->photo)
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4">
+                                            <img class="student-photo student-photo__lg" src="{{ asset('storage/images/students/' . $student->photo) }}"/>
+                                        </div>
+                                        <div class="col-sm-12 col-md-8">
+                                            <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>
+                                            <p><strong>Evaluating For: </strong> {{ $student->evaluating_for }}</p>
+                                            <p><strong>Current Stripes: </strong> {{ $student->has_stripes }} Months</p>
+                                        </div>
+                                    </div>
+                                @else
                                     <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>
                                     <p><strong>Evaluating For: </strong> {{ $student->evaluating_for }}</p>
                                     <p><strong>Current Stripes: </strong> {{ $student->has_stripes }} Months</p>
+                                @endif
                                 </div>
+
                                 <div class="col-sm-12 col-md-6">
                                     @if($student->Age) <p><strong>Age: </strong> {{ $student->Age }}</p> @endif
                                     <p><strong>Time Practicing: </strong> {{ $student->months_practice }} Months</p>

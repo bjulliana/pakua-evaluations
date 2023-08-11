@@ -24,6 +24,7 @@ class Student extends Model
     protected $fillable = [
         'evaluation_id',
         'name',
+        'photo',
         'receipt_number',
         'instructor_id',
         'current_belt_id',

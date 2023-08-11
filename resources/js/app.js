@@ -67,6 +67,22 @@ if (studentsAccordion && form) {
             console.error("Error:", error);
         }
     }
+}
 
+const studentPhotoInput = document.getElementById('photo');
+
+if (studentPhotoInput) {
+    studentPhotoInput.addEventListener('change', () => {
+        const previewPhoto = document.getElementById('preview');
+
+        if (previewPhoto) {
+            previewPhoto.style.display = 'block';
+            const [file] = studentPhotoInput.files;
+
+            if (file) {
+                previewPhoto.src = URL.createObjectURL(file);
+            }
+        }
+    })
 }
 

@@ -141,7 +141,7 @@ class StudentController extends Controller {
 
         if ($request->photo) {
             $fileName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('public/images/students', $fileName);
+            $request->photo->storeAs('images/students', $fileName);
             $student->photo = $fileName;
         }
 
@@ -236,7 +236,7 @@ class StudentController extends Controller {
 
         if ($request->photo) {
             $fileName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('public/images/students', $fileName);
+            $request->photo->storeAs('images/students', $fileName);
             $student->photo = $fileName;
         }
 

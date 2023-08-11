@@ -38,4 +38,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('itinerancies', ItinerancyController::class);
     Route::resource('evaluations', EvaluationController::class);
     Route::resource('students', StudentController::class);
+
+    Route::get('/create-symlink', function (){
+        symlink(storage_path('/app/public'), public_path('storage'));
+        echo "Symlink Created. Thanks";
+    });
 });

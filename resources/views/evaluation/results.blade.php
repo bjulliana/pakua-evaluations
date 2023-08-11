@@ -43,7 +43,7 @@
             </thead>
             @foreach ($students as $key => $student)
                 <tr class="align-middle">
-                    <td>@if ($student->photo) <img class="student-photo" src="{{ asset('storage/images/students/' . $student->photo) }}"/> @else - @endif</td>
+                    <td>@if ($student->photo) <img class="student-photo" src="{{ asset('storage/images/' . $student->photo) }}"/> @else - @endif</td>
                     <td>{{ $student->name }}</td>
                     <td><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></td>
                     <td><span class="badge bg-{{ $student->receivedBelt?->badgeClass() }}">{{ $student->receivedBelt?->name }}</span></td>

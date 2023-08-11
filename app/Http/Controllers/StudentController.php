@@ -141,7 +141,7 @@ class StudentController extends Controller {
 
         if ($request->photo) {
             $fileName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('images/students', $fileName);
+            $request->photo->storeAs('images', $fileName);
             $student->photo = $fileName;
         }
 
@@ -236,7 +236,7 @@ class StudentController extends Controller {
 
         if ($request->photo) {
             $fileName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('images/students', $fileName);
+            $request->photo->storeAs('images', $fileName);
             $student->photo = $fileName;
         }
 
@@ -257,8 +257,8 @@ class StudentController extends Controller {
         $student       = Student::find($id);
         $evaluation_id = $student->evaluation_id;
 
-        if (Storage::exists(public_path('images/students/' . $student->photo))) {
-            Storage::delete(public_path('images/students/' . $student->photo));
+        if (Storage::exists(public_path('images/' . $student->photo))) {
+            Storage::delete(public_path('images/' . $student->photo));
         }
 
         $student->delete();

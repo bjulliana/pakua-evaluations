@@ -257,8 +257,8 @@ class StudentController extends Controller {
         $student       = Student::find($id);
         $evaluation_id = $student->evaluation_id;
 
-        if (Storage::exists(public_path('images/' . $student->photo))) {
-            Storage::delete(public_path('images/' . $student->photo));
+        if (Storage::exists('images/' . $student->photo)) {
+            Storage::delete('images/' . $student->photo);
         }
 
         $student->delete();

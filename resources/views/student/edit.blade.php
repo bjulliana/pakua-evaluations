@@ -29,7 +29,7 @@
 
     {!! Form::model($student, ['method' => 'PATCH','route' => ['students.update', $student->id], 'files' => true]) !!}
         <div class="row">
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 @if($canAddResults) col-md-6 @endif">
                 <div class="form-group">
                     <label class="form-label" for="photo">Student Photo</label>
                     @if ($student->photo)
@@ -103,43 +103,46 @@
                     <input type="text" class="form-control" name="receipt_number" value="{{ old('receipt_number', $student->receipt_number) }}">
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6">
-                @foreach(range(1, 6) as $n)
-                    <div class="form-group">
-                        <p class="form-label">Activity {{ $n }}</p>
-                        @foreach(range(0, 4) as $i)
-                            @php($name = 'activity_' . $n)
-                            <div class="form-check form-check-inline">
-                                <input @if(old('activity_' . $n, (string) $student[$name]) === (string) $i) checked @endif type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $i }}">
-                                <label class="ml-1" for="activity_{{ $n }}_{{ $i }}">{{ $i }}</label>
-                            </div>
-                        @endforeach
-                    </div>
-                @endforeach
+            @if ($canAddResults)
+                <div class="col-sm-12 col-md-6">
+                    @foreach(range(1, 6) as $n)
+                        <div class="form-group">
+                            <p class="form-label">Activity {{ $n }}</p>
+                            @foreach(range(0, 4) as $i)
+                                @php($name = 'activity_' . $n)
+                                <div class="form-check form-check-inline">
+                                    <input @if(old('activity_' . $n, (string) $student[$name]) === (string) $i) checked @endif type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $i }}">
+                                    <label class="ml-1" for="activity_{{ $n }}_{{ $i }}">{{ $i }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
 
-                <div class="form-group">
-                    <label class="form-label" for="received_belt_id">Received Belt</label>
-                    <select name="received_belt_id" class="form-select">
-                        <option @if(!old('received_belt_id', $student->received_belt_id)) selected @endif value="">Select...</option>
-                        @foreach($belts as $belt)
-                            <option @if(old('received_belt_id', (string) $student->received_belt_id) === (string) $belt->id) selected @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label class="form-label" for="received_belt_id">Received Belt</label>
+                        <select name="received_belt_id" class="form-select">
+                            <option @if(!old('received_belt_id', $student->received_belt_id)) selected @endif value="">Select...</option>
+                            @foreach($belts as $belt)
+                                <option @if(old('received_belt_id', (string) $student->received_belt_id) === (string) $belt->id) selected @endif value="{{ $belt->id }}">{{ $belt->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="received_stripes">Received Stripes?</label>
+                        <select name="received_stripes" class="form-select">
+                            <option @if(!old('received_stripes', $student->received_stripes)) selected @endif value="">Select...</option>
+                            @foreach(range(0, 8) as $stripe)
+                                <option @if(old('received_stripes', (string) $student->received_stripes) === (string) $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="notes">Itinerant Notes</label>
+                        <textarea class="form-control" name="notes">{{ old('notes', $student->notes) }}</textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="received_stripes">Received Stripes?</label>
-                    <select name="received_stripes" class="form-select">
-                        <option @if(!old('received_stripes', $student->received_stripes)) selected @endif value="">Select...</option>
-                        @foreach(range(0, 8) as $stripe)
-                            <option @if(old('received_stripes', (string) $student->received_stripes) === (string) $stripe) selected @endif value="{{ $stripe }}">{{ $stripe }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="notes">Itinerant Notes</label>
-                    <textarea class="form-control" name="notes">{{ old('notes', $student->notes) }}</textarea>
-                </div>
-            </div>
+            @endif
+
             <input type="hidden" class="form-control" name="evaluation_id" value="{{ $evaluation->id }}">
             <div class="col-xs-12 col-sm-12 col-md-12 mt-3 text-end">
                 <button type="submit" class="btn btn-primary">Submit</button>

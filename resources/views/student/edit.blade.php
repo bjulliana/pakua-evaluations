@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="months_practice">How Many Months Practicing? <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" name="months_practice" value="{{ old('months_practice', $student->months_practice) }}">
+                    <input type="text" class="form-control" name="months_practice" value="{{ old('months_practice', $student->months_practice) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="age">Student's Age <span class="text-danger">*</span></label>
@@ -112,7 +112,7 @@
                                 @php($name = 'activity_' . $n)
                                 <div class="form-check form-check-inline">
                                     <input @if(old('activity_' . $n, (string) $student[$name]) === (string) $i) checked @endif type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $i }}">
-                                    <label class="ml-1" for="activity_{{ $n }}_{{ $i }}">{{ $i }}</label>
+                                    <label class="ml-1" for="activity_{{ $n }}_{{ $i }}"><img width="20" src="{{ asset('images/' . $i . '.png') }}"></label>
                                 </div>
                             @endforeach
                         </div>

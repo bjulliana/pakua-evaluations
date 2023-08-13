@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="months_practice">How Many Months Practicing?</label>
-                    <input type="number" class="form-control" name="months_practice" value="{{ old('months_practice') }}">
+                    <input type="text" class="form-control" name="months_practice" value="{{ old('months_practice') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="age">Student's Age</label>
@@ -114,7 +114,7 @@
                             @foreach(range(0, 4) as $i)
                                 <div class="form-check form-check-inline">
                                     <input type="radio" id="activity_{{ $n }}_{{ $i }}" name="activity_{{ $n }}" value="{{ $i }}" {{ old("activity_" . $n) === (string) $i ? "checked" : "" }}>
-                                    <label class="ml-1" for="activity_{{ $n }}_{{ $i }}">{{ $i }}</label>
+                                    <label class="ml-1" for="activity_{{ $n }}_{{ $i }}"><img width="20" src="{{ asset('images/' . $i . '.png') }}"></label>
                                 </div>
                             @endforeach
                         </div>

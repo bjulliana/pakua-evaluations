@@ -75,7 +75,7 @@
                                                 <div class="form-check form-check-inline">
                                                     @php($name = 'activity_' . $n)
                                                     <input type="radio" @if(old('activity_' . $n, (string) $student[$name]) === (string) $i) checked @endif id="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]" name="students[{{ $student->id }}][activity_{{ $n }}]" value="{{ $i }}">
-                                                    <label class="ml-1" for="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]">{{ $i }}</label>
+                                                    <label class="ml-1" for="students[{{ $student->id }}][activity_{{ $n }}_{{ $i }}]"><img width="20" src="{{ asset('images/' . $i . '.png') }}"></label>
                                                 </div>
                                             @endforeach
                                         </div>

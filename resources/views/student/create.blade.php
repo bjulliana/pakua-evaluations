@@ -73,7 +73,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="months_practice">How Many Months Practicing on Current Belt?</label>
+                    <label class="form-label" for="months_practice">How Much Time Practicing on Current Belt?</label>
                     <input type="text" class="form-control" name="months_practice" value="{{ old('months_practice') }}">
                 </div>
                 <div class="form-group">

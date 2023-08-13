@@ -49,19 +49,19 @@
                                         <div class="col-sm-12 col-md-8">
                                             <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>
                                             <p><strong>Evaluating For: </strong> {{ $student->evaluating_for }}</p>
-                                            <p><strong>Current Stripes: </strong> {{ $student->has_stripes }} Months</p>
+                                            <p><strong>Current Stripes: </strong> {{ $student->has_stripes }}</p>
                                         </div>
                                     </div>
                                 @else
                                     <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>
                                     <p><strong>Evaluating For: </strong> {{ $student->evaluating_for }}</p>
-                                    <p><strong>Current Stripes: </strong> {{ $student->has_stripes }} Months</p>
+                                    <p><strong>Current Stripes: </strong> {{ $student->has_stripes }}</p>
                                 @endif
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     @if($student->Age) <p><strong>Age: </strong> {{ $student->Age }}</p> @endif
-                                    <p><strong>Time Practicing: </strong> {{ $student->months_practice }} Months</p>
+                                    <p><strong>Time Practicing: </strong> {{ $student->months_practice }}</p>
                                     <p><strong>Evaluation Paid: </strong> {{ ($student->has_paid) ? 'Yes' : 'No' }}</p>
                                 </div>
                             </div>

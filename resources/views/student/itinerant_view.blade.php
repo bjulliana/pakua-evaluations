@@ -62,7 +62,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     @if($student->age) <p><strong>Age: </strong> {{ $student->age }}</p> @endif
                                     <p><strong>Time on Current Belt: </strong> {{ $student->months_practice }}</p>
-                                    <p><strong>Evaluation Paid: </strong> {{ ($student->has_paid) ? 'Yes' : 'No' }}</p>
+                                    <p><strong>Evaluation Paid: </strong> {{ ($student->is_paid) ? 'Yes' : 'No' }}</p>
                                 </div>
                             </div>
                             <div class="col-sm-12">

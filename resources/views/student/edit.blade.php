@@ -71,7 +71,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="months_practice">How Many Months Practicing? <span class="text-danger">*</span></label>
+                    <label class="form-label" for="months_practice">How Many Months Practicing on Current Belt? <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="months_practice" value="{{ old('months_practice', $student->months_practice) }}">
                 </div>
                 <div class="form-group">

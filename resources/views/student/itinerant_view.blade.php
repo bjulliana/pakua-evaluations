@@ -61,7 +61,7 @@
 
                                 <div class="col-sm-12 col-md-6">
                                     @if($student->Age) <p><strong>Age: </strong> {{ $student->Age }}</p> @endif
-                                    <p><strong>Time Practicing: </strong> {{ $student->months_practice }}</p>
+                                    <p><strong>Time on Current Belt: </strong> {{ $student->months_practice }}</p>
                                     <p><strong>Evaluation Paid: </strong> {{ ($student->has_paid) ? 'Yes' : 'No' }}</p>
                                 </div>
                             </div>
@@ -121,6 +121,7 @@
                 </div>
             @endforeach
             <input type="hidden" id="evaluation_id" name="evaluation_id" value="{{ $evaluation->id }}">
+            <input type="hidden" id="itinerancy_id" name="itinerancy_id" value="{{ $evaluation->itinerancy_id }}">
 
             <div class="d-flex justify-content-center">
                 <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -134,8 +135,8 @@
 
             <div class="fixed-footer text-end">
                 <div class="container">
-                    <a class="btn btn-secondary" href="{{ route('itinerancies.show', $evaluation->itinerancy_id) }}"> Back</a>
-                    <button type="submit" class="btn btn-primary ml-2">Save</button>
+                    <button type="submit" name="submit" value="1" class="btn btn-primary ml-2">Save</button>
+                    <button type="submit" name="submit" value="0" class="btn btn-success ml-2">Save & Exit</button>
                 </div>
             </div>
         </div>

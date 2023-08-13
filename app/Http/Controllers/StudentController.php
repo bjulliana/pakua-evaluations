@@ -155,9 +155,12 @@ class StudentController extends Controller {
     }
 
     public function itinerantUpdate(Request $request): \Illuminate\Http\RedirectResponse {
+        $submitValue = $request->input('submit');
+
         $inputs          = $request->all();
         $studentsRequest = $inputs['students'];
         $evaluationId    = $inputs['evaluation_id'];
+        $itinerancyId    = $inputs['itinerancy_id'];
 
         foreach ($studentsRequest as $studentRequest) {
             $student                   = Student::find($studentRequest['id']);
@@ -173,7 +176,11 @@ class StudentController extends Controller {
             $student->save();
         }
 
-        return redirect('/students/itinerant_view/' . $evaluationId)->with('success', 'Students updated successfully');
+        if ((int)$submitValue === 0) {
+            return redirect('/itinerancies/' . $itinerancyId)->with('success', 'Students updated successfully');
+        } else {
+            return redirect('/students/itinerant_view/' . $evaluationId)->with('success', 'Students updated successfully');
+        }
     }
 
     /**

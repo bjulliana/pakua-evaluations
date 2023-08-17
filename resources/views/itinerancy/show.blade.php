@@ -66,13 +66,34 @@
                             <a class="btn btn-primary" href="{{ route('evaluations.edit',$evaluation->id) }}">Edit</a>
                         @endcan
                         @can('evaluation-delete')
-                            {!! Form::open(['method' => 'DELETE','route' => ['evaluations.destroy', $evaluation->id],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                            {!! Form::close() !!}
+                            <button type="button" class="delete-evaluation-btn btn btn-danger" data-name="{{ $evaluation->discipline->name }}" data-value="{{ route('evaluations.destroy', $evaluation->id) }}">
+                                Delete
+                            </button>
                         @endcan
                     </td>
                 </tr>
             @endforeach
         </table>
+
+        {{-- Delete Modal --}}
+        <div class="modal fade" tabindex="-1" id="delete-evaluation-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="fs-5">Are you sure you want to delete <span class="fw-bold" id="evaluation-name"></span> Evaluation?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        {!! Form::open(['id' => 'delete-evaluation', 'method' => 'DELETE','route' => ['evaluations.destroy', $itinerancy->id],'style'=>'display:inline']) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

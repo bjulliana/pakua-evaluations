@@ -1,6 +1,5 @@
-import './bootstrap';
 import Sortable from 'sortablejs';
-//import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import { Toast } from 'bootstrap'
 
 const studentsAccordion = document.getElementById('students-accordion');
@@ -85,4 +84,75 @@ if (studentPhotoInput) {
         }
     })
 }
+
+const deleteItinerancyForm = document.getElementById('delete-itinerancy');
+const deleteEvaluationForm = document.getElementById('delete-evaluation');
+const deleteStudentForm = document.getElementById('delete-student');
+
+if (deleteItinerancyForm) {
+    const deleteItinerancyBtn = document.querySelectorAll('.delete-itinerancy-btn');
+    const deleteItinerancyModal = document.getElementById('delete-itinerancy-modal');
+    const deleteItinerancyModalObj = new bootstrap.Modal('#delete-itinerancy-modal');
+
+    deleteItinerancyBtn.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            deleteItinerancyModalObj.show(btn);
+        })
+    })
+
+    deleteItinerancyModal.addEventListener('show.bs.modal', (e) => {
+        const form = deleteItinerancyModal.querySelector('#delete-itinerancy');
+        const itinerancyName = deleteItinerancyModal.querySelector('#itinerancy-name');
+
+        form.action = e.relatedTarget.dataset.value;
+        itinerancyName.innerHTML = e.relatedTarget.dataset.name;
+    })
+}
+
+
+if (deleteEvaluationForm) {
+    const deleteEvaluationBtn = document.querySelectorAll('.delete-evaluation-btn');
+    const deleteEvaluationModal = document.getElementById('delete-evaluation-modal');
+    const deleteEvaluationModalObj = new bootstrap.Modal('#delete-evaluation-modal');
+
+    deleteEvaluationBtn.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            deleteEvaluationModalObj.show(btn);
+        })
+    })
+
+    deleteEvaluationModal.addEventListener('show.bs.modal', (e) => {
+        const form = deleteEvaluationModal.querySelector('#delete-evaluation');
+        const evaluationName = deleteEvaluationModal.querySelector('#evaluation-name');
+
+        form.action = e.relatedTarget.dataset.value;
+        evaluationName.innerHTML = e.relatedTarget.dataset.name;
+    })
+}
+
+
+if (deleteStudentForm) {
+    const deleteStudentBtn = document.querySelectorAll('.delete-student-btn');
+    const deleteStudentModal = document.getElementById('delete-student-modal');
+    const deleteStudentModalObj = new bootstrap.Modal('#delete-student-modal');
+
+    deleteStudentBtn.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            deleteStudentModalObj.show(btn);
+        })
+    })
+
+    deleteStudentModal.addEventListener('show.bs.modal', (e) => {
+        const form = deleteStudentModal.querySelector('#delete-student');
+        const studentName = deleteStudentModal.querySelector('#student-name');
+
+        form.action = e.relatedTarget.dataset.value;
+        studentName.innerHTML = e.relatedTarget.dataset.name;
+    })
+}
+
+
 

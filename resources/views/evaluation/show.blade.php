@@ -57,13 +57,34 @@
                             <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
                         @endcan
                         @can('student-delete')
-                            {!! Form::open(['method' => 'DELETE','route' => ['students.destroy', $student->id],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                            {!! Form::close() !!}
+                            <button type="button" class="delete-student-btn btn btn-danger" data-name="{{ $student->name }}" data-value="{{ route('students.destroy', $student->id) }}">
+                                Delete
+                            </button>
                         @endcan
                     </td>
                 </tr>
             @endforeach
         </table>
+
+        {{-- Delete Modal --}}
+        <div class="modal fade" tabindex="-1" id="delete-student-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="fs-5">Are you sure you want to delete student <span class="fw-bold" id="student-name"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        {!! Form::open(['id' => 'delete-student', 'method' => 'DELETE','style'=>'display:inline']) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

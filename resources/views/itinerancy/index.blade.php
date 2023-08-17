@@ -52,15 +52,36 @@
                             <a class="btn btn-primary" href="{{ route('itinerancies.edit',$itinerancy->id) }}">Edit</a>
                         @endcan
                         @can('itinerancy-delete')
-                            {!! Form::open(['method' => 'DELETE','route' => ['itinerancies.destroy', $itinerancy->id],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                            {!! Form::close() !!}
+                            <button type="button" class="delete-itinerancy-btn btn btn-danger" data-name="{{ $itinerancy->name }}" data-value="{{ route('itinerancies.destroy', $itinerancy->id) }}">
+                                Delete
+                            </button>
                         @endcan
                         <a class="btn btn-warning" href="{{ route('itinerancies.export', $itinerancy->id) }}">Export</a>
                     </td>
                 </tr>
             @endforeach
         </table>
+
+        {{-- Delete Modal --}}
+        <div class="modal fade" tabindex="-1" id="delete-itinerancy-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="fs-5">Are you sure you want to delete <span class="fw-bold" id="itinerancy-name"></span> Itinerancy?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        {!! Form::open(['id' => 'delete-itinerancy', 'method' => 'DELETE','route' => ['itinerancies.destroy', $itinerancy->id],'style'=>'display:inline']) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

@@ -1,6 +1,5 @@
 import Sortable from 'sortablejs';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
-import { Toast } from 'bootstrap'
 
 const studentsAccordion = document.getElementById('students-accordion');
 const form = document.getElementById('itinerant-form');
@@ -21,7 +20,7 @@ if (studentsAccordion && form) {
         const toastEl = document.querySelector('.toast');
         const toastElBody = toastEl.querySelector('.toast-body');
         toastElBody.innerHTML = '';
-        const toast = new Toast(toastEl);
+        const toast = bootstrap.Toast.getOrCreateInstance(toastEl)
 
         try {
             await fetch("/students/update_order", {

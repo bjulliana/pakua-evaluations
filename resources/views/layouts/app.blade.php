@@ -56,7 +56,7 @@
                     <ul class="navbar-nav me-auto"></ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto d-flex align-items-center">
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -64,11 +64,9 @@
                                 </li>
                             @endif
                         @else
+                            <div class="mr-3">{{ Auth::user()->name }}</div>
                             <div aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"
-                                >
+                                <a class="btn btn-warning" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 

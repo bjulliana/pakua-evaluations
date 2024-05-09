@@ -81,7 +81,7 @@ class EvaluationController extends Controller
     public function show($id): View
     {
         $evaluation = Evaluation::find($id);
-        $students = Student::where("evaluation_id", $id)->get();
+        $students = Student::where("evaluation_id", $id)->with('studentData')->get();
 
         return view('evaluation.show', compact('evaluation', 'students'));
     }

@@ -36,14 +36,27 @@
     {!! Form::open(array('route' => 'students.store','method'=>'POST', 'files' => true)) !!}
         <div class="row">
             <div class="col-sm-12 @if($canAddResults) col-md-6 @endif">
-                <div class="form-group">
-                    <label class="form-label" for="photo">Student Photo</label>
+                <div id="student-select-container" class="form-group">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label" for="student">Student <span class="text-danger">*</span></label>
+                        <a id="add-new-student" href="#">Add New Student</a>
+                    </div>
+                    <select class="form-control" id="student" name="student"></select>
+                </div>
+                <div id="student-preview-container" class="form-group">
+                    <img class="mb-4 hidden" id="preview-photo" src="#"/>
+                </div>
+                <div id="student-photo-container" class="form-group hidden mt-0">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label" for="photo">Student Photo</label>
+                        <a id="search-student" href="#">Search Student</a>
+                    </div>
                     <img class="mb-4" id="preview" src="#" style="display:none;"/>
                     <input type="file" class="form-control" id="photo" name="photo">
                 </div>
-                <div class="form-group">
+                <div id="student-name-container" class="form-group hidden">
                     <label class="form-label" for="name">Student Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
+                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="instructor_id">Instructor Name <span class="text-danger">*</span></label>

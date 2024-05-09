@@ -22,9 +22,8 @@ class Student extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'student_id',
         'evaluation_id',
-        'name',
-        'photo',
         'receipt_number',
         'instructor_id',
         'current_belt_id',
@@ -59,6 +58,10 @@ class Student extends Model
 
     public function instructor(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
         return $this->belongsTo(Instructor::class);
+    }
+
+    public function studentData(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
+        return $this->belongsTo(StudentData::class, 'student_id');
     }
 
     public static function getLastStudentCreatedForEvaluation($evaluation_id) {

@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/students/itinerant_view/update', [ StudentController::class, 'itinerantUpdate' ])->name('itinerant_view_update');
     Route::post('/students/update_order', [ StudentController::class, 'updateOrder' ]);
+    Route::get('/students/get_all', [ StudentController::class, 'getAll' ]);
+    Route::get('/students/get/{student_id}', [ StudentController::class, 'getStudent', 'student_id' ]);
 
     Route::resource('itinerancies', ItinerancyController::class);
     Route::resource('evaluations', EvaluationController::class);

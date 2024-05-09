@@ -7,6 +7,13 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+// Choices
+@import 'choices.js/src/styles/choices';
+
+.hidden {
+    display: none !important;
+}
+
 .form-group {
     margin-top: 16px;
 
@@ -99,7 +106,8 @@
     background-color: $success !important;
 }
 
-#preview {
+#preview,
+#preview-photo {
     display: block;
     width: auto;
     height: auto;

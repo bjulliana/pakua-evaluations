@@ -7,6 +7,7 @@ use App\Models\Evaluation;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Role;
+use App\Models\StudentData;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -118,34 +119,66 @@ class StudentController extends Controller {
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse {
         $submitValue = $request->input('submit');
+        $input       = $request->all();
 
         $this->validate($request, [
-            'name'              => 'required',
+            'student'           => 'required_without:name',
+            'name'              => 'required_without:student',
             'instructor_id'     => 'required',
             'current_belt_id'   => 'required',
             'photo'             => 'image|mimes:jpeg,png,jpg'
         ], $this->messages(), $this->attributes());
 
-
-        $input              = $request->all();
         $lastStudentCreated = Student::getLastStudentCreatedForEvaluation($input['evaluation_id']);
+        $studentData        = null;
 
-        $student = Student::create($input);
-
-        // Update Order
-        if ($lastStudentCreated) {
-            $student->order = $lastStudentCreated->order + 1;
-        } else {
-            $student->order = 1;
+        if (isset($input['student'])) {
+            $studentData = StudentData::firstWhere('id', $input['student']);
+        } elseif (isset($input['name'])) {
+            $studentData = StudentData::create([
+                'name' => $input['name']
+            ]);
         }
 
-        if ($request->photo) {
-            $fileName = time() . '.' . $request->photo->extension();
-            $request->photo->storeAs('public/images', $fileName);
-            $student->photo = $fileName;
-        }
+        if ($studentData instanceof StudentData) {
+            $student = Student::create([
+               'student_id'       => $studentData->id,
+               'evaluation_id'    => $input['evaluation_id'],
+               'receipt_number'   => $input['receipt_number'],
+               'instructor_id'    => $input['instructor_id'],
+               'current_belt_id'  => $input['current_belt_id'],
+               'has_stripes'      => $input['has_stripes'],
+               'months_practice'  => $input['months_practice'],
+               'age'              => $input['age'],
+               'is_paid'          => $input['is_paid'] ?? 0,
+               'evaluating_for'   => $input['evaluating_for'] ?? null,
+               'activity_1'       => $input['activity_1'] ?? null,
+               'activity_2'       => $input['activity_2'] ?? null,
+               'activity_3'       => $input['activity_3'] ?? null,
+               'activity_4'       => $input['activity_4'] ?? null,
+               'activity_5'       => $input['activity_5'] ?? null,
+               'activity_6'       => $input['activity_6'] ?? null,
+               'received_belt_id' => $input['received_belt_id'],
+               'received_stripes' => $input['received_stripes'],
+               'notes'            => $input['notes']
+            ]);
 
-        $student->save();
+            // Update Order
+            if ($lastStudentCreated) {
+                $student->order = $lastStudentCreated->order + 1;
+            } else {
+                $student->order = 1;
+            }
+
+            $student->save();
+
+            if ($request->photo) {
+                $fileName = time() . '.' . $request->photo->extension();
+                $request->photo->storeAs('public/images', $fileName);
+                $studentData->photo = $fileName;
+                $studentData->save();
+            }
+        }
 
         if ((int)$submitValue === 0) {
             return redirect('/evaluations/' . $student->evaluation_id)->with('success', 'Student created successfully');
@@ -239,14 +272,38 @@ class StudentController extends Controller {
         ], $this->messages(), $this->attributes());
 
         $student = Student::find($id);
-        $student->fill($request->all());
+        $studentData = $student->studentData;
+
+        $input   = $request->all();
+        $student->fill([
+           'receipt_number'   => $input['receipt_number'],
+           'instructor_id'    => $input['instructor_id'],
+           'current_belt_id'  => $input['current_belt_id'],
+           'has_stripes'      => $input['has_stripes'],
+           'months_practice'  => $input['months_practice'],
+           'age'              => $input['age'],
+           'is_paid'          => $input['is_paid'] ?? 0,
+           'evaluating_for'   => $input['evaluating_for'] ?? null,
+           'activity_1'       => $input['activity_1'] ?? null,
+           'activity_2'       => $input['activity_2'] ?? null,
+           'activity_3'       => $input['activity_3'] ?? null,
+           'activity_4'       => $input['activity_4'] ?? null,
+           'activity_5'       => $input['activity_5'] ?? null,
+           'activity_6'       => $input['activity_6'] ?? null,
+           'received_belt_id' => $input['received_belt_id'],
+           'received_stripes' => $input['received_stripes'],
+           'notes'            => $input['notes']
+        ]);
+
+        $studentData->name = $input['name'];
 
         if ($request->photo) {
             $fileName = time() . '.' . $request->photo->extension();
             $request->photo->storeAs('public/images', $fileName);
-            $student->photo = $fileName;
+            $studentData->photo = $fileName;
         }
 
+        $studentData->save();
         $student->save();
 
         return redirect()->route('evaluations.show', $student->evaluation_id)
@@ -263,10 +320,6 @@ class StudentController extends Controller {
     public function destroy(int $id): \Illuminate\Http\RedirectResponse {
         $student       = Student::find($id);
         $evaluation_id = $student->evaluation_id;
-
-        if (Storage::exists('public/images/' . $student->photo)) {
-            Storage::delete('public/images/' . $student->photo);
-        }
 
         $student->delete();
 
@@ -295,6 +348,49 @@ class StudentController extends Controller {
             return response()->json([
                 'status'  => 'success',
                 'message' => 'Students Order Updated'
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getAll(): \Illuminate\Http\JsonResponse {
+        try {
+            $students = StudentData::get()->all();
+
+            $data = array_map(function ($student) {
+                return [
+                    'value' => (string) $student->id,
+                    'label' => $student->name
+                ];
+            }, $students);
+
+            return response()->json([
+                'status' => 'success',
+                'data'   => $data
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getStudent($studentId): \Illuminate\Http\JsonResponse {
+        try {
+            if (!$studentId) {
+                throw new Exception("Missing Student ID");
+            }
+
+            $student = StudentData::where('id', $studentId)->get()->first();
+
+            return response()->json([
+                'status' => 'success',
+                'data'   => $student
             ]);
         } catch (Throwable $e) {
             return response()->json([

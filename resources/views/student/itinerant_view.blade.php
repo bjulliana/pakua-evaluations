@@ -32,7 +32,7 @@
                             <div class="title-row">
                                 <span class="row-drag-icon"><i class="bi bi-arrows-move"></i></span>
                                 <span class="row-id"><strong class="d-none d-md-inline"># </strong>{{ $student->order }}</span>
-                                <span class="row-name"><strong class="d-none d-md-inline">Student: </strong>{{ $student->name }}</span>
+                                <span class="row-name"><strong class="d-none d-md-inline">Student: </strong>{{ $student->studentData->name }}</span>
                                 <span class="row-belt d-flex align-items-center"><strong class="d-none d-md-inline mr-1">Current Belt: </strong><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></span>
                             </div>
                         </button>
@@ -41,10 +41,10 @@
                         <div class="accordion-body pb-5">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                @if ($student->photo)
+                                @if ($student->studentData->photo)
                                     <div class="row">
                                         <div class="col-sm-12 col-md-4">
-                                            <img class="student-photo student-photo__lg" src="{{ asset('storage/public/images/' . $student->photo) }}"/>
+                                            <img class="student-photo student-photo__lg" src="{{ asset('storage/public/images/' . $student->studentData->photo) }}"/>
                                         </div>
                                         <div class="col-sm-12 col-md-8">
                                             <p><strong>Instructor: </strong> {{ $student->instructor?->name }}</p>

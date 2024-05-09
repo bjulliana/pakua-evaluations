@@ -48,16 +48,16 @@
             </thead>
             @foreach ($students as $key => $student)
                 <tr class="align-middle">
-                    <td>{{ $student->id }}</td>
-                    <td>@if ($student->photo) <img class="student-photo" src="{{ asset('storage/public/images/' . $student->photo) }}"/> @else - @endif</td>
-                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->studentData->id }}</td>
+                    <td>@if ($student->studentData->photo) <img class="student-photo" src="{{ asset('storage/public/images/' . $student->studentData->photo) }}"/> @else - @endif</td>
+                    <td>{{ $student->studentData->name }}</td>
                     <td><span class="badge bg-{{ $student->currentBelt?->badgeClass() }}">{{ $student->currentBelt?->name }}</span></td>
                     <td align="right">
                         @can('student-edit')
                             <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
                         @endcan
                         @can('student-delete')
-                            <button type="button" class="delete-student-btn btn btn-danger" data-name="{{ $student->name }}" data-value="{{ route('students.destroy', $student->id) }}">
+                            <button type="button" class="delete-student-btn btn btn-danger" data-name="{{ $student->studentData->name }}" data-value="{{ route('students.destroy', $student->id) }}">
                                 Delete
                             </button>
                         @endcan

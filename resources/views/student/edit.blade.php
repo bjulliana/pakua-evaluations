@@ -32,8 +32,8 @@
             <div class="col-sm-12 @if($canAddResults) col-md-6 @endif">
                 <div class="form-group">
                     <label class="form-label" for="photo">Student Photo</label>
-                    @if ($student->photo)
-                        <img class="mb-4" id="preview" src="{{ asset('storage/public/images/' . $student->photo) }}"/>
+                    @if ($student->studentData->photo)
+                        <img class="mb-4" id="preview" src="{{ asset('storage/public/images/' . $student->studentData->photo) }}"/>
                     @else
                         <img class="mb-4" id="preview" src="#" style="display:none;"/>
                     @endif
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="name">Student Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="name" required value="{{old('name', $student->name)}}">
+                    <input type="text" class="form-control" name="name" required value="{{old('name', $student->studentData->name)}}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="instructor_id">Instructor Name <span class="text-danger">*</span></label>

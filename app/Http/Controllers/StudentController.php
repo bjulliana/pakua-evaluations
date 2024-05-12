@@ -158,9 +158,9 @@ class StudentController extends Controller {
                'activity_4'       => $input['activity_4'] ?? null,
                'activity_5'       => $input['activity_5'] ?? null,
                'activity_6'       => $input['activity_6'] ?? null,
-               'received_belt_id' => $input['received_belt_id'],
-               'received_stripes' => $input['received_stripes'],
-               'notes'            => $input['notes']
+               'received_belt_id' => $input['received_belt_id'] ?? null,
+               'received_stripes' => $input['received_stripes'] ?? null,
+               'notes'            => $input['notes'] ?? null
             ]);
 
             // Update Order

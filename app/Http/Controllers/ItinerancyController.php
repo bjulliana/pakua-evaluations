@@ -143,7 +143,7 @@ class ItinerancyController extends Controller
             foreach ($students as $student) {
                 $data[] = [
                     'Discipline' => $evaluation->discipline->name,
-                    'Name' => $student->name,
+                    'Name' => $student->studentData->name,
                     'Instructor' => $student->instructor->name,
                     'Current Belt' => $student->currentBelt->name,
                     'Current Stripes' => $student->has_stripes,

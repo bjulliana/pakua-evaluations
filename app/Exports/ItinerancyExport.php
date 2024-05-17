@@ -28,6 +28,7 @@ class ItinerancyExport implements FromArray, WithHeadings, ShouldAutoSize, WithS
         return [
             'Discipline',
             'Name',
+            'Receipt No.',
             'Instructor',
             'Current Belt',
             'Current Stripes',

@@ -144,6 +144,7 @@ class ItinerancyController extends Controller
                 $data[] = [
                     'Discipline' => $evaluation->discipline->name,
                     'Name' => $student->studentData->name,
+                    'Receipt No.' => $student->receipt_number,
                     'Instructor' => $student->instructor->name,
                     'Current Belt' => $student->currentBelt->name,
                     'Current Stripes' => $student->has_stripes,

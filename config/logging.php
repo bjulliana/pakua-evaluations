@@ -54,7 +54,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'daily', 'error', 'daily_error'],
             'ignore_exceptions' => false,
         ],
 
@@ -65,10 +65,25 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'error' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/error.log'),
+            'level' => env('LOG_LEVEL', 'error'),
+            'replace_placeholders' => true,
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+            'replace_placeholders' => true,
+        ],
+
+        'error_daily' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/error.log'),
+            'level' => env('LOG_LEVEL', 'error'),
             'days' => 14,
             'replace_placeholders' => true,
         ],

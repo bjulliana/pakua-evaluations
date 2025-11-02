@@ -1,3 +1,11 @@
+@php
+    $cwd = getcwd();
+    $cssName = basename(glob($cwd . '/build/assets/*.css')[0], '.css');
+    $jsName = basename(glob($cwd . '/build/assets/*.js')[0], '.js');
+    $css = asset('build/assets/' . $cssName . '.css');
+    $js = asset('build/assets/' . $jsName . '.js');
+@endphp
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -23,7 +31,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ $css }}" id="css">
+    <script src="{{ $js }}" id="js"></script>
+
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 <body>
     <div id="app">
